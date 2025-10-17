@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión 3 - CRUD Completo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .progress {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 2px;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            background: #28a745;
+            height: 20px;
+            border-radius: 8px;
+            width: 37.5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button.success {
+            background: #28a745;
+        }
+
+        button.danger {
+            background: #dc3545;
+        }
+
+        button.warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin: 10px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .respuesta {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .respuesta.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .respuesta.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .service-item {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #007bff;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 Backend Development - Sesión 3</h1>
+        <h2>CRUD Completo con MySQL</h2>
+
+        <div class="progress">
+            <div class="progress-bar">Sesión 3 de 8</div>
+        </div>
+
+        <!-- Sección: Listar Servicios -->
+        <div class="section">
+            <h3>📋 Listar Servicios</h3>
+            <button id="btn-toggle-servicios" onclick="toggleServicios()">Ver Todos los Servicios</button>
+            <div id="respuesta-servicios" class="respuesta"></div>
+        </div>
+
+        <!-- Sección: Crear Servicio -->
+        <div class="section">
+            <h3>➕ Crear Nuevo Servicio</h3>
+            <div class="form-group">
+                <label for="nombre">Nombre del Servicio:</label>
+                <input type="text" id="nombre" placeholder="Ej: Desarrollo Web">
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" rows="3" placeholder="Descripción del servicio..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" step="0.01" min="0" placeholder="0.00">
+            </div>
+            <button class="success" onclick="crearServicio()">Crear Servicio</button>
+            <div id="respuesta-crear" class="respuesta"></div>
+        </div>
+
+        <!-- Sección: Actualizar Servicio -->
+        <div class="section">
+            <h3>✏️ Actualizar Servicio</h3>
+            <div class="form-group">
+                <label for="update-id">ID del Servicio a Actualizar:</label>
+                <input type="number" id="update-id" placeholder="1">
+            </div>
+            <div class="form-group">
+                <label for="update-nombre">Nuevo Nombre:</label>
+                <input type="text" id="update-nombre" placeholder="Nuevo nombre">
+            </div>
+            <div class="form-group">
+                <label for="update-descripcion">Nueva Descripción:</label>
+                <textarea id="update-descripcion" rows="3" placeholder="Nueva descripción..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="update-precio">Nuevo Precio:</label>
+                <input type="number" id="update-precio" step="0.01" min="0" placeholder="0.00">
+            </div>
+            <button class="warning" onclick="actualizarServicio()">Actualizar Servicio</button>
+            <div id="respuesta-actualizar" class="respuesta"></div>
+        </div>
+
+        <!-- Sección: Eliminar Servicio -->
+        <div class="section">
+            <h3>🗑️ Eliminar Servicio</h3>
+            <div class="form-group">
+                <label for="delete-id">ID del Servicio a Eliminar:</label>
+                <input type="number" id="delete-id" placeholder="1">
+            </div>
+            <button class="danger" onclick="eliminarServicio()">Eliminar Servicio</button>
+            <div id="respuesta-eliminar" class="respuesta"></div>
+        </div>
+    </div>
+
+    <script>
+        // Variable para controlar el estado del toggle
+        let serviciosVisible = false;
+
+        // Función para mostrar respuestas
+        function mostrarRespuesta (elementId, mensaje, tipo = 'success') {
+            const div = document.getElementById(elementId)
+            div.innerHTML = mensaje
+            div.className = `respuesta ${tipo}`
+            div.style.display = 'block'
+            // Eliminamos el setTimeout para que no se oculte automáticamente
+        }
+
+        // Toggle para mostrar/ocultar servicios
+        function toggleServicios () {
+            const div = document.getElementById('respuesta-servicios')
+            const btn = document.getElementById('btn-toggle-servicios')
+
+            if (serviciosVisible) {
+                // Ocultar servicios
+                div.style.display = 'none'
+                btn.textContent = 'Ver Todos los Servicios'
+                btn.style.background = '#007bff'
+                serviciosVisible = false
+            } else {
+                // Mostrar servicios
+                obtenerServicios()
+                btn.textContent = 'Ocultar Servicios'
+                btn.style.background = '#6c757d'
+                serviciosVisible = true
+            }
+        }
+
+        // Listar servicios (función modificada para el toggle)
+        async function obtenerServicios () {
+            try {
+                const response = await fetch('/api/services')
+                const data = await response.json()
+
+                let html = `<h4>📊 Total de servicios: ${data.total}</h4>`
+
+                if (data.datos && data.datos.length > 0) {
+                    data.datos.forEach(servicio => {
+                        html += `
+                            <div class="service-item">
+                                <div>
+                                    <strong>${servicio.nombre}</strong> - $${servicio.precio}<br>
+                                    <small>${servicio.descripcion || 'Sin descripción'}</small><br>
+                                    <small>ID: ${servicio.id}</small>
+                                </div>
+                                <div class="service-actions">
+                                    <button onclick="cargarServicio(${servicio.id})">Editar</button>
+                                    <button class="danger" onclick="confirmarEliminar(${servicio.id})">Eliminar</button>
+                                </div>
+                            </div>
+                        `
+                    })
+                } else {
+                    html += '<p>No hay servicios disponibles.</p>'
+                }
+
+                mostrarRespuesta('respuesta-servicios', html, 'success')
+            } catch (error) {
+                mostrarRespuesta('respuesta-servicios', 'Error al obtener servicios', 'error')
+            }
+        }
+
+        // Crear servicio
+        async function crearServicio () {
+            const nombre = document.getElementById('nombre').value
+            const descripcion = document.getElementById('descripcion').value
+            const precio = document.getElementById('precio').value
+
+            if (!nombre || !precio) {
+                mostrarRespuesta('respuesta-crear', 'Por favor completa nombre y precio', 'error')
+                return
+            }
+
+            try {
+                const response = await fetch('/api/services', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre,
+                        descripcion,
+                        precio: parseFloat(precio)
+                    })
+                })
+
+                const data = await response.json()
+
+                if (response.ok) {
+                    mostrarRespuesta('respuesta-crear', `✅ ${data.mensaje}`, 'success')
+                    // Limpiar formulario
+                    document.getElementById('nombre').value = ''
+                    document.getElementById('descripcion').value = ''
+                    document.getElementById('precio').value = ''
+                    // Actualizar lista solo si está visible
+                    if (serviciosVisible) {
+                        obtenerServicios()
+                    }
+                } else {
+                    mostrarRespuesta('respuesta-crear', `❌ ${data.mensaje}`, 'error')
+                }
+            } catch (error) {
+                mostrarRespuesta('respuesta-crear', 'Error al crear servicio', 'error')
+            }
+        }
+
+        // Actualizar servicio
+        async function actualizarServicio () {
+            const id = document.getElementById('update-id').value
+            const nombre = document.getElementById('update-nombre').value
+            const descripcion = document.getElementById('update-descripcion').value
+            const precio = document.getElementById('update-precio').value
+
+            if (!id || !nombre || !precio) {
+                mostrarRespuesta('respuesta-actualizar', 'Por favor completa ID, nombre y precio', 'error')
+                return
+            }
+
+            try {
+                const response = await fetch(`/api/services/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        nombre,
+                        descripcion,
+                        precio: parseFloat(precio)
+                    })
+                })
+
+                const data = await response.json()
+
+                if (response.ok) {
+                    mostrarRespuesta('respuesta-actualizar', `✅ ${data.mensaje}`, 'success')
+                    // Limpiar formulario
+                    document.getElementById('update-id').value = ''
+                    document.getElementById('update-nombre').value = ''
+                    document.getElementById('update-descripcion').value = ''
+                    document.getElementById('update-precio').value = ''
+                    // Actualizar lista solo si está visible
+                    if (serviciosVisible) {
+                        obtenerServicios()
+                    }
+                } else {
+                    mostrarRespuesta('respuesta-actualizar', `❌ ${data.mensaje}`, 'error')
+                }
+            } catch (error) {
+                mostrarRespuesta('respuesta-actualizar', 'Error al actualizar servicio', 'error')
+            }
+        }
+
+        // Eliminar servicio
+        async function eliminarServicio () {
+            const id = document.getElementById('delete-id').value
+
+            if (!id) {
+                mostrarRespuesta('respuesta-eliminar', 'Por favor ingresa un ID', 'error')
+                return
+            }
+
+            if (!confirm(`¿Estás seguro de eliminar el servicio con ID ${id}?`)) {
+                return
+            }
+
+            try {
+                const response = await fetch(`/api/services/${id}`, {
+                    method: 'DELETE'
+                })
+
+                const data = await response.json()
+
+                if (response.ok) {
+                    mostrarRespuesta('respuesta-eliminar', `✅ ${data.mensaje}`, 'success')
+                    document.getElementById('delete-id').value = ''
+                    // Actualizar lista solo si está visible
+                    if (serviciosVisible) {
+                        obtenerServicios()
+                    }
+                } else {
+                    mostrarRespuesta('respuesta-eliminar', `❌ ${data.mensaje}`, 'error')
+                }
+            } catch (error) {
+                mostrarRespuesta('respuesta-eliminar', 'Error al eliminar servicio', 'error')
+            }
+        }
+
+        // Funciones auxiliares
+        async function cargarServicio (id) {
+            try {
+                // Obtener datos del servicio específico
+                const response = await fetch(`/api/services`)
+                const data = await response.json()
+
+                // Buscar el servicio por ID
+                const servicio = data.datos.find(s => s.id === id)
+
+                if (servicio) {
+                    // Pre-llenar el formulario de edición
+                    document.getElementById('update-id').value = servicio.id
+                    document.getElementById('update-nombre').value = servicio.nombre
+                    document.getElementById('update-descripcion').value = servicio.descripcion || ''
+                    document.getElementById('update-precio').value = servicio.precio
+
+                    // Buscar la sección de actualizar por el h3 que contiene "Actualizar"
+                    const h3Elements = document.querySelectorAll('h3')
+                    let seccionActualizar = null
+
+                    h3Elements.forEach(h3 => {
+                        if (h3.textContent.includes('Actualizar')) {
+                            seccionActualizar = h3.parentElement
+                        }
+                    })
+
+                    if (seccionActualizar) {
+                        // Scroll a la sección de actualizar
+                        seccionActualizar.scrollIntoView({ behavior: 'smooth', block: 'center' })
+
+                        // Destacar visualmente la sección
+                        seccionActualizar.style.border = '3px solid #007bff'
+                        seccionActualizar.style.backgroundColor = '#e3f2fd'
+                        seccionActualizar.style.transition = 'all 0.3s ease'
+
+                        // Quitar el destacado después de 4 segundos
+                        setTimeout(() => {
+                            seccionActualizar.style.border = '1px solid #ddd'
+                            seccionActualizar.style.backgroundColor = 'white'
+                        }, 4000)
+                    }
+
+                    // Mostrar mensaje de confirmación en la sección de actualizar
+                    mostrarRespuesta('respuesta-actualizar', `📝 ¡Datos cargados! Servicio: "${servicio.nombre}" - ID: ${servicio.id}<br>✏️ Modifica los campos y haz clic en "Actualizar Servicio"`, 'success')
+                } else {
+                    mostrarRespuesta('respuesta-actualizar', `❌ No se encontró el servicio con ID ${id}`, 'error')
+                }
+            } catch (error) {
+                console.error('Error detallado:', error)
+                mostrarRespuesta('respuesta-actualizar', `❌ Error al cargar los datos: ${error.message}`, 'error')
+
+                // Hacer scroll a la sección de actualizar aunque haya error
+                const h3Elements = document.querySelectorAll('h3')
+                h3Elements.forEach(h3 => {
+                    if (h3.textContent.includes('Actualizar')) {
+                        h3.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                    }
+                })
+            }
+        }
+
+        async function confirmarEliminar (id) {
+            try {
+                // Obtener datos del servicio para mostrar en la confirmación
+                const response = await fetch(`/api/services`)
+                const data = await response.json()
+
+                // Buscar el servicio por ID
+                const servicio = data.datos.find(s => s.id === id)
+
+                if (servicio) {
+                    // Mostrar confirmación con los datos del servicio
+                    const confirmacion = confirm(
+                        `¿Estás seguro de eliminar este servicio?\n\n` +
+                        `ID: ${servicio.id}\n` +
+                        `Nombre: ${servicio.nombre}\n` +
+                        `Precio: $${servicio.precio}\n` +
+                        `Descripción: ${servicio.descripcion || 'Sin descripción'}`
+                    )
+
+                    if (confirmacion) {
+                        // Realizar la eliminación directamente
+                        const deleteResponse = await fetch(`/api/services/${id}`, {
+                            method: 'DELETE'
+                        })
+
+                        const deleteData = await deleteResponse.json()
+
+                        if (deleteResponse.ok) {
+                            mostrarRespuesta('respuesta-eliminar', `✅ ${deleteData.mensaje}`, 'success')
+                            // Actualizar lista solo si está visible
+                            if (serviciosVisible) {
+                                obtenerServicios()
+                            }
+                        } else {
+                            mostrarRespuesta('respuesta-eliminar', `❌ ${deleteData.mensaje}`, 'error')
+                        }
+                    }
+                } else {
+                    mostrarRespuesta('respuesta-eliminar', `❌ No se encontró el servicio con ID ${id}`, 'error')
+                }
+            } catch (error) {
+                mostrarRespuesta('respuesta-eliminar', 'Error al eliminar el servicio', 'error')
+            }
+        }
+
+        // Cargar página sin mostrar servicios automáticamente
+        window.onload = () => {
+            // La página está lista, pero no cargamos servicios automáticamente
+            console.log('Página de CRUD cargada - Sesión 3')
+        }
+    </script>
+</body>
+
+</html>
