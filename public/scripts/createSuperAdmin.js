@@ -1,6 +1,6 @@
 // Script para crear el superadmin inicial - Sesión 4
-const { sequelize } = require("../src/config/db");
-const User = require("../src/models/User");
+const { sequelize } = require("../../src/config/db");
+const User = require("../../src/models/User");
 
 async function crearSuperAdmin() {
   try {
