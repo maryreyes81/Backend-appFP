@@ -1,6 +1,7 @@
 // src/models/Service.js - Sesión 4: Modelo de Servicio con Usuario
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
+const User = require('./User');
 
 const Service = sequelize.define(
   "Service",
@@ -42,7 +43,10 @@ const Service = sequelize.define(
   {
     tableName: "services",
     timestamps: true,
+     createdAt: "created_at", 
+     updatedAt: "updated_at" 
   }
 );
+
 
 module.exports = Service;

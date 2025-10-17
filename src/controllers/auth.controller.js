@@ -115,7 +115,7 @@ const login = async (req, res) => {
     res.status(500).json({
       error: true,
       mensaje: "Error interno del servidor",
-      detalles: error.message,
+      detalles: error.stack// error.message,
     });
   }
 };
