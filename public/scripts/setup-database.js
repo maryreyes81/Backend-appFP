@@ -9,7 +9,7 @@ async function setupDatabase() {
     connection = await mysql.createConnection({
       host: "localhost",
       user: "root",
-      password: "@Tecmilenio2025",
+      password: "Mandarina8127!",
     });
 
     console.log("✅ Conectado a MySQL");
