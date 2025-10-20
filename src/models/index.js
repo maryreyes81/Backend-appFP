@@ -1,5 +1,5 @@
 // Archivo para establecer relaciones entre modelos
-const User = require("./User");
+const User = require("./Users");
 const Service = require("./Service");
 
 // Definir relaciones

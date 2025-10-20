@@ -1,7 +1,7 @@
 // src/models/Service.js - Sesión 4: Modelo de Servicio con Usuario
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/db");
-const User = require('./User');
+const User = require('./Users');
 
 const Service = sequelize.define(
   "Service",

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const User = require("../models/Users");
 
 // Clave secreta para JWT (en producción debería estar en variables de entorno)
 const JWT_SECRET = "tu_clave_secreta_super_segura_2024";
@@ -49,6 +49,8 @@ const registro = async (req, res) => {
       email,
       password,
       rol: rolAsignado,
+      activo: true,         // default
+      join_date: new Date() // <-- FIX rápido para 1364
     });
 
     // Generar token
@@ -157,6 +159,8 @@ const crearUsuario = async (req, res) => {
       email,
       password,
       rol: rol || "cliente",
+      activo: true,         // default
+      join_date: new Date() // <-- FIX rápido para 1364
     });
 
     res.status(201).json({

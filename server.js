@@ -67,7 +67,7 @@ async function startServer() {
     app.get('/api/services/:id', async (req, res) => {
       try {
         const Service = require('./src/models/Service')
-        const User = require('./src/models/User')
+        const User = require('./src/models/Users')
 
         const id = parseInt(req.params.id)
         const servicio = await Service.findByPk(id, {

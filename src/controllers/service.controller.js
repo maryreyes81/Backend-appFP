@@ -1,5 +1,7 @@
+// Controlador para gestionar servicios conectando con el modelo Service
+
 const Service = require('../models/Service')
-const User = require('../models/User')
+const User = require('../models/Users')
 
 // Obtener todos los servicios (público para home, filtrado para dashboard)
 const obtenerServicios = async (req, res) => {
