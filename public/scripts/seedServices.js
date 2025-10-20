@@ -1,4 +1,4 @@
-//script semilla para crear servicios de ejemplo
+/* //script semilla para crear servicios de ejemplo
 const { sequelize } = require("../src/config/db");
 
 //Manejo mejorado de errores de importación
@@ -135,3 +135,4 @@ crearServiciosSemilla();
 
 
 
+ */
