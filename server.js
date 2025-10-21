@@ -96,7 +96,7 @@ async function startServer() {
       console.log(`Servidor escuchando en http://localhost:${PORT}`);
     });
   } catch (error) {
-    Console.error(`Error al iniciar el servidor:`, error);
+    console.error(`Error al iniciar el servidor:`, error);
   }
 }
 
