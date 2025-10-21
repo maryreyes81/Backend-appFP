@@ -1,6 +1,6 @@
 //CJS
 const express = require("express");
-const path = require("path");
+const path = require("nonde:path");
 const { connectDB } = require("./src/config/db");
 
 //Importar modelos
