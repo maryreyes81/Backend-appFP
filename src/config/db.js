@@ -40,8 +40,16 @@ const connectDB = async () => {
 const insertSampleData = async () => {
   try {
     const Service = require("../models/Service");
-    const count = await Service.count();
+    const User = require("../models/Users")
 
+    //Primero verificar que exista al menos un usuario
+    const userCount = await User.count()
+    if (userCount === 0) {
+      console.log('No hay usuarios. Ejecuta: npm run create-superadmin')
+      return
+    }
+
+    const count = await Service.count()
     if (count === 0) {
       await Service.bulkCreate([
         {

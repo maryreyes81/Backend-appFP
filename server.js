@@ -27,7 +27,7 @@ async function startServer() {
     const { obtenerServicios, crearServicio, actualizarServicio, eliminarServicio } = require('./src/controllers/service.controller')
     const { verificarToken, adminOSuperadmin } = require('./src/middlewares/auth.middleware')
 
-    // RUTAS DE PÁGINAS
+    // RUTAS DE PÁGINAS (lo que el servidor esta ofreciendo, mandando un archivo estatico. Cuando el cliente llegue a index, login, registro, dashboard muestrales esta pag )
     app.get('/', (req, res) => {
       res.sendFile(path.join(__dirname, 'public', 'index.html'))
     })
