@@ -1,6 +1,7 @@
 //CJS
+require('dotenv').config();
 const express = require("express");
-const path = require("nonde:path");
+const path = require("node:path");
 const { connectDB } = require("./src/config/db");
 
 //Importar modelos
