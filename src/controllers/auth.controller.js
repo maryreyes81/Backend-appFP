@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/Users");
 
 // Clave secreta para JWT (en producción debería estar en variables de entorno)
-const JWT_SECRET = "tu_clave_secreta_super_segura_2024";
+const JWT_SECRET = process.env.JWT_SECRET||"tu_clave_secreta_super_segura_2025";
 
 // Generar token JWT
 const generarToken = (usuario) => {
