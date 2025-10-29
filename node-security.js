@@ -1,4 +1,4 @@
-const helmet = require("helmet");
+/* const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const { xss } = require("express-xss-sanitizer");
 
@@ -12,7 +12,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-app.use(xss()); // Sanitiza entradas XSS
+app.use(xss()); // Sanitiza entradas XSS */
 
 // (Opcional) — CORS si tu frontend está en otro dominio
 // const cors = require('cors')

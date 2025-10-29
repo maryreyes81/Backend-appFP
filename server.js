@@ -4,11 +4,42 @@ const express = require("express");
 const path = require("node:path");
 const { connectDB } = require("./src/config/db");
 
+const helmet = require('helmet')
+const rateLimit = require('express-rate-limit')
+
+
 //Importar modelos
 require("./src/models/index");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Middleware de seguridad
+app.use(helmet({
+  contentSecurityPolicy: false, // Deshabilitado para permitir estilos inline
+  crossOriginEmbedderPolicy: false // Deshabilitado para compatibilidad
+}))
+
+// Rate limiting - límite general
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // máximo 100 requests por IP
+  message: 'Demasiadas solicitudes desde esta IP, intenta de nuevo más tarde.',
+  standardHeaders: true,
+  legacyHeaders: false
+})
+
+// Rate limiting específico para auth (más restrictivo)
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 5, // máximo 5 intentos de login por IP
+  message: 'Demasiados intentos de login, intenta de nuevo más tarde.',
+  standardHeaders: true,
+  legacyHeaders: false
+})
+
+app.use(limiter)
+
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -17,9 +48,7 @@ async function startServer() {
   try {
     await connectDB();
     console.log("Conectado a la base de datos y modelos sincronizados");
-    app.get("/", (req, res) => {
-      res.sendFile(path.join(__dirname, "public", "index.html"));
-    });
+
 
  // Importar rutas de auth DESPUÉS de DB
     const authRoutes = require('./src/routes/auth.routes')
