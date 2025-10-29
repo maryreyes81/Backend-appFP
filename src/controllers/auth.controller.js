@@ -20,6 +20,7 @@ const generarToken = (usuario) => {
 // Registro de usuarios
 const registro = async (req, res) => {
   try {
+        console.log('Datos recibidos en registro:', req.body);
     const { nombre, email, password, rol } = req.body;
 
     // Validaciones básicas
@@ -79,6 +80,7 @@ const login = async (req, res) => {
 
     // Validaciones básicas
     if (!email || !password) {
+     console.log("Faltan campos:", { nombre, email, password });
       return res.status(400).json({
         error: true,
         mensaje: "Email y contraseña son obligatorios",
@@ -147,6 +149,7 @@ const crearUsuario = async (req, res) => {
     // Verificar si el email ya existe
     const usuarioExistente = await User.findOne({ where: { email } });
     if (usuarioExistente) {
+      console.log("Verificando si el email ya existe:", email);
       return res.status(400).json({
         error: true,
         mensaje: "El email ya está registrado",
