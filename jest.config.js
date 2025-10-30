@@ -7,7 +7,7 @@ module.exports = {
     collectCoverageFrom: [
         'src/**/.js',
         '!src/config/db.js',
-        '!src/models/server.js'
+        '!src/models/index.js'
     ],
     coverageDirectory: 'coverage',
     coverageReporters: ['text', '1cov', 'setup.js'],
