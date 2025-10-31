@@ -7,6 +7,7 @@ const { verificarToken, soloSuperadmin } = require('../middlewares/auth.middlewa
 // Middleware para manejar errores de validación
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req)
+  console.log("❌ Errores de validación:", errors.array()); // 👈 esto te dirá qué campo está fallando
   if (!errors.isEmpty()) {
     return res.status(400).json({
       success: false,
@@ -67,6 +68,7 @@ const crearUsuarioValidation = [
     .isLength({ min: 6 })
     .withMessage('La contraseña debe tener al menos 6 caracteres'),
   body('rol')
+  .optional()
     .isIn(['cliente', 'admin', 'superadmin'])
     .withMessage('El rol debe ser cliente, administrador o superadmin'),
   body('telefono')
