@@ -6,8 +6,8 @@
     "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "jest",
-    "create-superadmin": "node scripts/createSuperAdmin.js",
-    "seed-services": "node scripts/seedServices.js"
+    "test:coverage": "jest --coverage",
+    "create-superadmin": "node scripts/createSuperAdmin.js"
   },
   "keywords": [],
   "author": "",
@@ -24,13 +24,13 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.15.2",
-    "sequelize": "^6.37.7",
-    "sqlite3": "^5.1.7"
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "cross-env": "^10.1.0",
     "jest": "^30.2.0",
     "nodemon": "^3.1.10",
+    "sqlite3": "^5.1.7",
     "standard": "^17.1.2"
   },
   "eslintConfig": {

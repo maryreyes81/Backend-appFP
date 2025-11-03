@@ -1,6 +1,7 @@
 // tests/unit/auth.unit.test.js - Tests unitarios para funciones de autenticación de la app
 const jwt = require('jsonwebtoken')
 
+
 // Importar las funciones de nuestra aplicación
 const { generarToken, JWT_SECRET } = require('../../src/controllers/auth.controller')
 

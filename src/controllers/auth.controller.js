@@ -200,6 +200,7 @@ module.exports = {
   registro,
   login,
   crearUsuario,
+  generarToken,
   perfil,
   JWT_SECRET,
 };

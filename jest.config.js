@@ -5,12 +5,12 @@ module.exports = {
         '**/tests/**/*.spec.js'
     ],
     collectCoverageFrom: [
-        'src/**/.js',
+        'src/**/*.js',
         '!src/config/db.js',
         '!src/models/index.js'
     ],
     coverageDirectory: 'coverage',
-    coverageReporters: ['text', '1cov', 'setup.js'],
-    setupFDilesAfterEnv: ['<rootDir>/tests/setup.js'],
+    coverageReporters: ['text', 'lcov', 'html'],
+    setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
 testTimeout:10000
 }
